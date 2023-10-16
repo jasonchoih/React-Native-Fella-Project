@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "my-app",
+    "slug": "my-app",
+    "version": "1.0.0",
+    "userInterfaceStyle": "automatic",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.jpg",
+      "resizeMode": "contain"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "userInterfaceStyle": "automatic"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png"
+      },
+      "userInterfaceStyle": "automatic"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "sourceExts": [ "js", "json", "ts", "tsx", "jsx", "vue"],
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/shiba.png",
+          "sounds": ["./assets/sounds/bonk.wav"]
+        }
+      ]
+    ]
+  }
+}
