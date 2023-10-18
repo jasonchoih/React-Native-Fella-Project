@@ -17,7 +17,7 @@ export default ({navigation}) =>
     const [ show, setShow ] = useState(false);
     const dispatch = useDispatch();
     // 
-    const { nick, bio, location, website, birth_date } = validation;
+    const { nick, bio, location, website, birth_date, tag } = validation;
     // 
     const { handleSubmit, control, formState: { errors } } = useForm({
         defaultValues: {}
@@ -79,6 +79,27 @@ export default ({navigation}) =>
                     />
                     <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
                         {errors?.nick && errors.nick.message}
+                    </FormControl.ErrorMessage>
+                </FormControl>
+                }
+            />
+            <Controller
+                name="tag"
+                control={control}
+                rules={tag}
+                defaultValue={Auth&&Auth.tag}
+                render={({field: { onChange, value}}) => <FormControl isInvalid={errors?.tag} mb={2}>
+                    <FormControl.Label>Tag</FormControl.Label>
+                    <Input 
+                        w={{ base: "100%" }}
+                        size="xs"
+                        variant="underlined"
+                        placeholder="Type your tag" 
+                        value={value}
+                        onChangeText={value => onChange(value)}
+                    />
+                    <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+                        {errors?.tag && errors.tag.message}
                     </FormControl.ErrorMessage>
                 </FormControl>
                 }

@@ -1,40 +1,19 @@
 import { extendTheme } from 'native-base';
 
 export default theme = extendTheme({
+  config: {
+    useSystemColorMode: true,
+  },
   colors: {
-    // primary: {
-    //   50: '#E5F4FF',
-    //   100: '#B3E0FF',
-    //   200: '#80C7FF',
-    //   300: '#4EA3FF',
-    //   400: '#1B7FFF',
-    //   500: '#0063E8', // Twitter blue
-    //   600: '#0056CC',
-    //   700: '#0049B3',
-    //   800: '#003C99',
-    //   900: '#002E7F',
-    // },
-    // secondary: {
-    //   50: '#FFF0E5',
-    //   100: '#FFD9B3',
-    //   200: '#FFBF80',
-    //   300: '#FFA04E',
-    //   400: '#FF810B',
-    //   500: '#FF7200', // Twitter orange
-    //   600: '#CC5D00',
-    //   700: '#994800',
-    //   800: '#663300',
-    //   900: '#331E00',
-    // },
   },
   components: {
     Button: {
       baseStyle: {
-        // borderRadius: 'full', 
+        borderRadius: 'full'
       },
       defaultProps:{
         _dark:{
-          bg:"#fff"
+          bg:"#007acc"
         },
         _light:{
           bg:"#ffac42"
@@ -42,14 +21,14 @@ export default theme = extendTheme({
       },
     },
     Box: {
-      defaultProps:{
-        // _dark:{
-        //   bg:"#000"
-        // },
-        // _light:{
-        //   bg:"#002E7F"
-        // }
-      }
+      // defaultProps:{
+      //   _dark:{
+      //     bg:"#252526"
+      //   },
+      //   _light:{
+      //     bg:"#fff"
+      //   }
+      // }
     },
     Input: {
       defaultProps: {
@@ -57,15 +36,31 @@ export default theme = extendTheme({
         // size: 'lg',
       },
     },
+    // FormControl:{
+    //   baseStyle: {
+    //     style:{
+    //       color: '#ff0000'
+    //     }
+    //   },
+    //   defaultProps:{
+    //     _dark:{
+    //       color:"#ff0000"
+    //     },
+    //     _light:{
+    //       color:"#ff0000"
+    //     }
+    //   }
+    // },
     Text: {
       defaultProps: {
-        fontSize: 'md',
-        // _dark:{
-        //   color:"#0063E8"
-        // },
-        // _light:{
-        //   color:"#fff"
-        // }
+        fontSize:12,
+        fontFamily:'Helvetica Neue',
+        _dark:{
+          color:"#fff"
+        },
+        _light:{
+          color:"#000"
+        }
       },
       // variants: {
       //   heading: {

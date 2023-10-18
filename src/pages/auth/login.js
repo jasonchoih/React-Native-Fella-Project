@@ -1,9 +1,8 @@
 import { useEffect } from "react";
-import { Input, FormControl, Box, Heading, Text, Button, WarningOutlineIcon, Icon, Divider, Center, Image, KeyboardAvoidingView } from "native-base";
-import { MaterialIcons, AntDesign } from '@expo/vector-icons'; 
-import { View } from 'react-native';
+import { Input, FormControl, Box, Heading, Text, Button, WarningOutlineIcon, Icon, Divider, Center, Image } from "native-base";
+import { AntDesign } from '@expo/vector-icons'; 
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigation, Link } from '@react-navigation/native';
+import { Link } from '@react-navigation/native';
 import { SEND } from 'store';
 // 
 // import PhoneCode from 'components/Tool/PhoneCode';

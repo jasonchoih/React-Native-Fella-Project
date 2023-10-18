@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { View, Text, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { View, TouchableWithoutFeedback, useColorScheme } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
-import { Image, Center, FormControl, WarningOutlineIcon } from "native-base";
+import { Image, Center, FormControl, WarningOutlineIcon, Text, Box } from "native-base";
 import { SEND } from 'store';
 // 
 import { MentionInput } from 'react-native-controlled-mentions';
@@ -15,10 +15,11 @@ import styles from 'config/styles';
 // 
 export default ({navigation}) =>
 {
-    const { media, UserList } = useSelector((state) => state.models);
+    const { media, UserList, userInfo } = useSelector((state) => state.models);
     const Auth = useSelector((state) => state.auths);
     // 
     const [ keys, setKey ] = useState([]);
+    const scheme = useColorScheme();
     // 
     const dispatch = useDispatch();
     // 
@@ -57,7 +58,7 @@ export default ({navigation}) =>
     const renderSuggestions = ({keyword, onSuggestionPress}) => {
         if (keyword == null) return null;
         //  
-        return <ScrollView>
+        return <>
             {UserList&&UserList
                 .filter(one => one.nick.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()))
                 .map(one => (
@@ -65,7 +66,7 @@ export default ({navigation}) =>
                         onSuggestionPress({id: one.id, name: one.nick});
                         setKey([]);
                     }}>
-                        <View style={styles.tweetContainer}>
+                        <Box style={styles.tweetContainer} w={{ base: "80%" }}>
                             <View style={{flexDirection:'row', columnGap:10}}>
                                 <View style={{flexBasis:40}}>
                                     <Center>
@@ -74,7 +75,7 @@ export default ({navigation}) =>
                                             borderRadius={150}
                                             alt="Add Profile picture"
                                             source={{
-                                                uri: "https://s5.tvp.pl/images2/e/2/5/uid_e25ba3623b2643a7a08c9977caabd09b_width_1280_play_0_pos_0_gs_0_height_720_photo-nafo.png"
+                                                uri: (one.profile_image&&"https://s3.amazonaws.com/fella-storage.com/Users/profile/"+one.profile_image)  || 'https://assets.wfcdn.com/im/62631921/compr-r85/2137/213721793/cute-shiba-inu-dog-paws-up-over-wall-dog-face-cartoon-vector-illustration-on-canvas-by-chayapoll-tummakorn-print.jpg'
                                             }}
                                         />
                                     </Center>
@@ -86,11 +87,11 @@ export default ({navigation}) =>
                                     </View>
                                 </View>
                             </View>
-                        </View>
+                        </Box>
                     </TouchableWithoutFeedback>
                 ))
             }
-        </ScrollView>
+        </>
     };
     // 
     return <View>
@@ -101,9 +102,7 @@ export default ({navigation}) =>
                         size="xs"
                         borderRadius={150}
                         alt="Add Profile picture"
-                        source={{
-                            uri: "https://s5.tvp.pl/images2/e/2/5/uid_e25ba3623b2643a7a08c9977caabd09b_width_1280_play_0_pos_0_gs_0_height_720_photo-nafo.png"
-                        }}
+                        source={{uri: (userInfo&&userInfo.profile_image&&"https://s3.amazonaws.com/fella-storage.com/Users/profile/"+userInfo.profile_image)  || 'https://assets.wfcdn.com/im/62631921/compr-r85/2137/213721793/cute-shiba-inu-dog-paws-up-over-wall-dog-face-cartoon-vector-illustration-on-canvas-by-chayapoll-tummakorn-print.jpg'}}
                     />
                 </Center>
             </View>
@@ -114,11 +113,16 @@ export default ({navigation}) =>
                     control={control}
                     render={({field: { onChange, value}}) => <FormControl isInvalid={errors?.content} mb={2}>
                         <MentionInput
+                            color={scheme === 'dark' ? "#fff": "#000"}
+                            multiline
+                            style={{minHeight:50, maxHeight: 150}} 
+                            placeholder="What's happening?"
+                            placeholderTextColor="#808080" 
+                            maxLength={1000}
+                            autoFocus={true}
                             value={value}
-                            style={{minHeight:200}}
                             onChange={value => {
-                                onChange(value);
-                                findNamesWithAtSymbol(value);
+                                onChange(value); findNamesWithAtSymbol(value);
                             }}
                             partTypes={[{
                                 ...partType,
@@ -133,7 +137,7 @@ export default ({navigation}) =>
                     </FormControl>
                     }
                 />
-                <UploadMedia location='Tweets' />
+                <UploadMedia location='Tweets' size={36} />
             </View>
             
         </View>

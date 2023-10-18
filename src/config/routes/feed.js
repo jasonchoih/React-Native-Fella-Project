@@ -1,14 +1,14 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
-import { Image, Text, TouchableWithoutFeedback } from 'react-native';
-import { Button } from 'native-base';
+import { Image, TouchableWithoutFeedback } from 'react-native';
+import { Text, Button } from 'native-base';
 // 
 import Feed from 'pages/feed';
 import FeedAdd from 'pages/feed/add';
 import FeedInfo from 'pages/feed/info';
 import FeedComment from 'pages/feed/comment';
 // 
-import UserInfo from 'components/User';
+import UserInfo from 'pages/user';
 // 
 export default () =>
 {
@@ -33,9 +33,12 @@ export default () =>
             <Stack.Screen
                 name="feedInfo"
                 component={FeedInfo}
-                options={{ 
-                    headerTitle: ()=><></>,
-                }}
+                options={({ route, navigation }) => ({
+                    title:null,
+                    headerLeft: ()=> <TouchableWithoutFeedback onPress={()=>navigation.pop()}>
+                        <Text>Back</Text>
+                    </TouchableWithoutFeedback>
+                })}
             />
             <Stack.Screen
                 name="userInfo"
@@ -57,9 +60,9 @@ export default () =>
                     headerLeft: ()=> <TouchableWithoutFeedback onPress={()=>navigation.pop()}>
                         <Text>Cancel</Text>
                     </TouchableWithoutFeedback>,
-                    headerRight:() => <Button size='xs' isDisabled={!media.loaded}
+                    headerRight:() => <Button size='xs' isDisabled={media&&!media.loaded}
                         onPress={async()=>subFeedAdd&&subFeedAdd()}>
-                            <Text>Post</Text>
+                            Post
                         </Button>
                   })}
             />
@@ -71,7 +74,7 @@ export default () =>
                     headerLeft: ()=> <TouchableWithoutFeedback onPress={()=>navigation.pop()}>
                         <Text>Cancel</Text>
                     </TouchableWithoutFeedback>,
-                    headerRight:() => <Button size='xs' isDisabled={!media.loaded}
+                    headerRight:() => <Button size='xs' isDisabled={media&&!media.loaded}
                         onPress={()=>subComment&&subComment()}>
                         <Text>Post</Text>
                     </Button>

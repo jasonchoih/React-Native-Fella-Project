@@ -35,6 +35,9 @@ export default
             // message:'格式为 a-zA-Z0-9_或中文，长度2-16'
         }
     },
+    tag:{
+        required: "Please fill in your tag" ,
+    },
     parent: {
         // required: "Parent cannot be empty" ,
         pattern:{

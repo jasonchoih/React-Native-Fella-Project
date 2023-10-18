@@ -14,7 +14,7 @@ export default props =>
   const { media } = useSelector((state) => state.models);
   const Auth = useSelector((state) => state.auths);
   // 
-  const { location, color } = props;
+  const { location, color, size } = props;
   // 
   const dispatch = useDispatch();
   // 
@@ -84,7 +84,11 @@ export default props =>
   return <View>
     <View style={{flexDirection:'row', columnGap:10, alignItems:'center'}}>
       <TouchableWithoutFeedback onPress={pickImage}>
-      <AntDesign name="camera" size={24} color={color || 'black'} />
+      <AntDesign
+        name="camera" 
+        size={size || 24} 
+        color={color || '#808080'}
+      />
     </TouchableWithoutFeedback>
     {media&&!media.loaded&&<HStack space={2} justifyContent="center">
       <ActivityIndicator /> 

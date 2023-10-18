@@ -5,9 +5,6 @@ import { Button, Image } from "native-base";
 import { useSelector, useDispatch } from 'react-redux';
 // 
 import Home from 'pages/home';
-import News from 'pages/home/news';
-import Rank from 'pages/home/rank';
-import Vip from 'pages/home/vip';
 // 
 import Login from 'pages/auth/login';
 import Register from 'pages/auth/register';
@@ -94,27 +91,6 @@ export default () =>
                 headerStyle: {
                     backgroundColor: '#bcefff'
                 }
-            }}
-        />
-        <Stack.Screen
-            name="news"
-            component={News}
-            options={{ 
-                // headerShown: false
-            }}
-        />
-        <Stack.Screen 
-            name="rank" 
-            component={Rank} 
-            options={{ 
-                // headerShown: false 
-            }}
-        />
-        <Stack.Screen 
-            name="vip" 
-            component={Vip} 
-            options={{ 
-                // headerShown: false 
             }}
         />
         <Stack.Screen 

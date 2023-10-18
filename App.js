@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
+import { View, useColorScheme } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/lib/integration/react";
 import { store, persistor } from 'store';
-import { NativeBaseProvider, Box } from "native-base";
-import { NavigationContainer } from '@react-navigation/native';
+import { NativeBaseProvider } from "native-base";
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -15,13 +16,14 @@ import Modal from 'components/Modal';
 import Routes from 'config/routes';
 //  
 import theme from 'config/theme';
-import { colorModeManager } from 'config/theme';
 // 
 SplashScreen.preventAutoHideAsync();
 // 
 export default App = () =>
 {
   const [ appIsReady, setAppIsReady ] = useState(false);
+  
+  const scheme = useColorScheme();
   // 
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
@@ -55,13 +57,13 @@ export default App = () =>
       <SafeAreaProvider>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <NativeBaseProvider theme={theme} colorModeManager={colorModeManager}>
-              <Box style={{flex:1}} onLayout={onLayoutRootView}>
-                <NavigationContainer>
+            <NativeBaseProvider theme={theme}>
+              <View style={{flex:1}} onLayout={onLayoutRootView}>
+                <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
                   <Routes />
                   <Modal />
                 </NavigationContainer>
-              </Box>
+              </View>
             </NativeBaseProvider>
           </PersistGate>
         </Provider>

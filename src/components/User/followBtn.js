@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { Button } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
+import styles from 'config/styles';
 import { SEND } from 'store';
 // 
 export default (d) =>

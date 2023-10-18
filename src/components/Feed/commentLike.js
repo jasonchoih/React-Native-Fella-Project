@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import styles from 'pages/feed/styles';
 import { SEND } from 'store';
@@ -20,7 +20,7 @@ export default (d) =>
                     SEND('comment/unlike',{tweet_id, comment_id});
                 }}
                 name="heart" 
-                size={20} 
+                size={14} 
                 color="#E0245E" 
             />
         : 
@@ -31,11 +31,11 @@ export default (d) =>
                     SEND('comment/like',{tweet_id, comment_id});
                 }}
                 name="hearto" 
-                size={20} 
-                color="black" 
+                size={14} 
+                color="#808080"
             />
         
         }
-        <Text style={styles.actionButtonText}>{likeCount}</Text>
+        <Text style={[styles.actionButtonText, _isLiked ? {color:'#E0245E'}:{color:"#808080"}]}>{likeCount}</Text>
     </TouchableOpacity>
 };

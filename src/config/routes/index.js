@@ -77,22 +77,18 @@ export default () =>
         <Tab.Screen 
           name="home" 
           component={HomeRoutes} 
-          options={({ route }) => ({
+          options={{
             title: 'Home',
             headerShown: false,
-            tabBarIcon: ({ color, size }) => (
-              <AntDesign name="home" size={24} />
-            ),
-          })}
+            tabBarIcon: () => <AntDesign name="home" color="#808080" size={18} />
+          }}
         />
         <Tab.Screen 
           name="support" 
           component={Support} 
           options={{
             title: 'Support',
-            tabBarIcon: ({ color, size }) => (
-              <AntDesign name="hearto" size={24} />
-            ),
+            tabBarIcon: () => <AntDesign name="hearto" color="#808080" size={18} />,
             headerStyle: {
               backgroundColor: '#bcefff',
               height: 95
@@ -103,46 +99,40 @@ export default () =>
             />
           }}
         />
-        <Tab.Screen 
-          name="feeds" 
-          children={()=><Wrapper children={<FeedRoutes/>} />}
-          options={{
-            headerShown: false ,
-            tabBarIcon: ({ color, size }) => (
-              <FontAwesome name="group" size={24} />
-            ),
-          }}
-        />
-        <Tab.Screen 
-          name="message"
-          options={{
-            title: 'Messages',
-            headerShown: false ,
-            tabBarIcon: ({ color, size }) => (
-              <AntDesign name="message1" size={24} />
-            ),
-          }}
-          children={()=><Wrapper children={<MessageRoutes/>} />}
-        />
-        <Tab.Screen 
-          name="users"
-          options={{
-            headerShown: false ,
-            title: 'Me',
-            tabBarIcon: ({ color, size }) => (
-              <AntDesign name="user" size={24} />
-            ), 
-            // headerStyle: {
-            //   backgroundColor: '#bcefff',
-            //   height: 95
-            // },
-            headerTitle: () => <Image
-              style={{width:35, height:35, marginBottom:2}} 
-              source={require('../../../assets/shiba.png')} 
-            />
-          }}
-          children={()=><Wrapper children={<UserRoutes/>} />}
-        />
+        <Tab.Group>
+          <Tab.Screen 
+            name="feeds" 
+            children={()=><Wrapper children={<FeedRoutes/>} />}
+            options={{
+              headerShown: false ,
+              title: 'Bonk',
+              tabBarIcon: () => <FontAwesome name="group" color="#808080" size={18} />,
+              lazy:true,
+              unmountOnBlur: true
+            }}
+          />
+          <Tab.Screen 
+            name="message"
+            options={{
+              title: 'Messages',
+              headerShown: false ,
+              tabBarIcon: () => <AntDesign name="message1" color="#808080" size={18} />,
+              lazy:true
+            }}
+            children={()=><Wrapper children={<MessageRoutes/>} />}
+          />
+          <Tab.Screen 
+            name="users"
+            options={{
+              headerShown: false,
+              title:'My Profile',
+              tabBarIcon: () => <AntDesign name="user" color="#808080" size={18} />,
+              lazy:true,
+              unmountOnBlur: true     
+            }}
+            children={()=><Wrapper children={<UserRoutes/>} />}
+          />
+        </Tab.Group>
       </Tab.Navigator>
     {/* </Chat> */}
   </OverlayProvider>

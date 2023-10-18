@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { Image } from 'native-base';
+import { View, TouchableOpacity, ScrollView } from 'react-native';
+import { Image, Text, Box } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 import { Video } from 'expo-av';
@@ -51,9 +51,8 @@ export default ({route}) =>
       {
         const index = findArrIndex(CommentList, CommentLike[0]);
         let newComment = CommentList;
-        let newFollowingFeed;
-        newComment[index][4] = CommentLike[1];
-        newComment[index][6] = CommentLike[2];
+        newComment[index][5] = CommentLike[1];
+        newComment[index][7] = CommentLike[2];
         // 
         dispatch.models.SET({ 
           CommentList: newComment, 
@@ -67,7 +66,7 @@ export default ({route}) =>
     }
     // 
     return <ScrollView>
-      <View style={styles.infoContainer}>
+      <Box style={styles.infoContainer}>
 
         <View style={{flexDirection:'row', columnGap:5}}>
 
@@ -77,7 +76,7 @@ export default ({route}) =>
                 style={{height:40, width:40, alignContent:'center'}}
                 borderRadius={20}
                 source={{
-                  uri: (tweetInfo[4]&&"https://s3.amazonaws.com/fella-storage.com/Users/profile/"+v[4])  || 'https://assets.wfcdn.com/im/62631921/compr-r85/2137/213721793/cute-shiba-inu-dog-paws-up-over-wall-dog-face-cartoon-vector-illustration-on-canvas-by-chayapoll-tummakorn-print.jpg'
+                  uri: tweetInfo[4]&&("https://s3.amazonaws.com/fella-storage.com/Users/profile/"+tweetInfo[4])  || 'https://assets.wfcdn.com/im/62631921/compr-r85/2137/213721793/cute-shiba-inu-dog-paws-up-over-wall-dog-face-cartoon-vector-illustration-on-canvas-by-chayapoll-tummakorn-print.jpg'
                 }}
               />
           </View>
@@ -112,22 +111,23 @@ export default ({route}) =>
                 )}
               </View>}
 
-            <View style={{flexDirection:'row', columnGap:10, borderBottomWidth:1, borderColor:"#eee", paddingVertical:5}}>
-                <View >
-                    <Text>{tweetInfo[8]} Likes</Text>
+            <View style={[{flexDirection:'row', columnGap:10, paddingVertical:5}, styles.boe]}>
+                <View>
+                    <Text>{tweetInfo[8]} <Text style={styles.c8}>Likes</Text></Text>
                 </View>
                 <View>
-                  <Text>{tweetInfo[9]} Comments</Text>
+                  <Text>{tweetInfo[9]} <Text style={styles.c8}>Comments</Text></Text>
+                </View>
+                <View>
+                  <Text style={styles.c8}>{tweetInfo[10]} ago</Text>
                 </View>
             </View>
-            <View style= {{ borderBottomWidth:1, borderColor:"#eee", paddingVertical:5}}>
-              <Text style={styles.c8}>{tweetInfo[10]} ago</Text>
-            </View>
+            
 
-            <View style={[styles.actionsContainer, {borderBottomWidth:1, borderColor:"#eee", paddingVertical:10}]}>
+            <View style={[styles.actionsContainer, styles.boe, {paddingVertical:10}]}>
               <HandleLike tweet_id={tweetInfo[0]} isLiked={tweetInfo[7]} likes={tweetInfo[8]} />
               <TouchableOpacity onPress={() => handleComment()} style={styles.actionButton}>
-                <FontAwesome name="comment-o" size={20} color="black" />
+                <FontAwesome name="comment-o" size={14} color="#808080" />
               </TouchableOpacity>
             </View>
 
@@ -135,7 +135,7 @@ export default ({route}) =>
         </View>
 
         {CommentList&&CommentList.map((v,k)=>(
-          <View key={k} style={{paddingVertical:10, borderBottomWidth:1, borderColor:'#eee'}}>
+          <View key={k} style={[{paddingVertical:10}, styles.boe]}>
               <View style={{flexDirection:'row'}}>
                 <View style={{flexBasis:50}}>
                   <Image 
@@ -143,7 +143,7 @@ export default ({route}) =>
                     borderRadius={20}
                     alt="prof_pic"
                     source={{
-                      uri: (v[7]&&"https://s3.amazonaws.com/fella-storage.com/Users/profile/"+v[4])  || 'https://assets.wfcdn.com/im/62631921/compr-r85/2137/213721793/cute-shiba-inu-dog-paws-up-over-wall-dog-face-cartoon-vector-illustration-on-canvas-by-chayapoll-tummakorn-print.jpg'
+                      uri: v[4]&&("https://s3.amazonaws.com/fella-storage.com/Users/profile/"+v[4])  || 'https://assets.wfcdn.com/im/62631921/compr-r85/2137/213721793/cute-shiba-inu-dog-paws-up-over-wall-dog-face-cartoon-vector-illustration-on-canvas-by-chayapoll-tummakorn-print.jpg'
                     }}
                   />
                 </View>
@@ -190,6 +190,6 @@ export default ({route}) =>
             </View>
           ))}
         
-      </View>
+      </Box>
     </ScrollView>
 }

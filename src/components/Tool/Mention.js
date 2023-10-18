@@ -4,8 +4,7 @@ import { parseValue, isMentionPartType } from 'react-native-controlled-mentions'
 export const partType = {
     trigger: '@',
     textStyle: {
-        fontWeight: 'bold',
-        color: 'blue'
+        color: '#007acc'
     }
 };
 // 

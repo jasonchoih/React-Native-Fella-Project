@@ -1,16 +1,19 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector, useDispatch } from 'react-redux';
 import { TabActions } from '@react-navigation/native';
-import { TouchableWithoutFeedback, Image, Text } from 'react-native';
+import { TouchableWithoutFeedback, Image } from 'react-native';
+import { Text } from 'native-base';
 import { Ionicons } from '@expo/vector-icons'; 
 import { Button } from 'native-base';
 // 
-import User from 'components/User';
+import User from 'pages/user';
+import FeedInfo from 'pages/feed/info';
+import FeedComment from 'pages/feed/comment';
 import UserEdit from 'pages/user/edit';
 // 
 export default () =>
 {
-    const { subUserEdit, media } = useSelector((state) => state.models);
+    const { subUserEdit, subComment, media } = useSelector((state) => state.models);
     const dispatch = useDispatch();
     const Stack = createNativeStackNavigator();
     // 
@@ -27,6 +30,9 @@ export default () =>
                     headerStyle: {
                         backgroundColor: '#bcefff'
                     },
+                    headerLeft:() => <TouchableWithoutFeedback onPress={()=>navigation.pop()}>
+                        <Text>{route&&route.params&&route.params.headerLeft}</Text>
+                    </TouchableWithoutFeedback>,
                     headerRight: () => <TouchableWithoutFeedback 
                         onPress={()=>{
                             dispatch.auths.DEL();
@@ -38,8 +44,32 @@ export default () =>
                            });
                            navigation.dispatch(TabActions.jumpTo('home'));
                         }}>
-                        <Ionicons name="exit-outline" size={24} color="black" />
+                        <Ionicons name="exit-outline" size={20} color="black" />
                     </TouchableWithoutFeedback>
+                })}
+            />
+            <Stack.Screen
+                name="feedInfo"
+                component={FeedInfo}
+                options={({ route, navigation }) => ({
+                    title:null,
+                    headerLeft: ()=> <TouchableWithoutFeedback onPress={()=>navigation.pop()}>
+                        <Text>Back</Text>
+                    </TouchableWithoutFeedback>
+                })}
+            />
+            <Stack.Screen
+                name="feedComment"
+                component={FeedComment}
+                options={({ route, navigation }) => ({
+                    title: null,
+                    headerLeft: ()=> <TouchableWithoutFeedback onPress={()=>navigation.pop()}>
+                        <Text>Cancel</Text>
+                    </TouchableWithoutFeedback>,
+                    headerRight:() => <Button size='xs' isDisabled={media&&!media.loaded}
+                        onPress={()=>subComment&&subComment()}>
+                        <Text>Post</Text>
+                    </Button>
                 })}
             />
         </Stack.Group>
@@ -52,7 +82,7 @@ export default () =>
                     headerLeft: ()=> <TouchableWithoutFeedback onPress={()=>navigation.pop()}>
                         <Text>Cancel</Text>
                     </TouchableWithoutFeedback>,
-                    headerRight:() => <Button size='xs' isDisabled={media?.loaded}
+                    headerRight:() => <Button size='xs' isDisabled={media&&!media.loaded}
                         onPress={()=>subUserEdit&&subUserEdit()}>
                         <Text>Save</Text>
                     </Button>

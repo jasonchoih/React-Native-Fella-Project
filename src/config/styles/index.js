@@ -25,6 +25,11 @@ export default styles = StyleSheet.create({
     f16:{fontSize:16},
     h100:{height:"100%"},
     w100:{width:"100%"},
+    por:{position:'relative'},
+    boe:{
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderColor: '#A8A8A8'
+    },
     mini: {
       fontSize: 11,
       color:'#808080'
@@ -54,10 +59,9 @@ export default styles = StyleSheet.create({
     },
     // 
     tweetContainer: {
-      borderBottomWidth:1,
-      borderColor: '#eee',
-      padding: 10,
-      backgroundColor:"#fff"
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderColor: '#A8A8A8',
+      padding: 10
     },
     mediaPreview: {
       marginTop: 8
@@ -85,22 +89,60 @@ export default styles = StyleSheet.create({
     addTxt:{
       fontSize:30, 
       color:"#fff", 
+      paddingTop:12,
       textAlign:'center'
     },
     // 
     // Comments
     infoContainer: {
-      borderBottomWidth:1,
-      borderColor: '#eee',
       paddingLeft: 10,
       paddingRight:10,
-      paddingTop:10,
-      backgroundColor: 'white',
+      paddingTop:10
     },
     actionsContainer: {
       flexDirection: 'row',
       justifyContent: 'space-evenly',
       alignItems:'center',
     },
+    actionButtonText: {
+      marginLeft: 4,
+      color:'#808080'
+    },
     // 
+    // User
+    avatar: {
+      width: 60,
+      height: 60,
+      borderRadius: 50,
+      position:'absolute', 
+      bottom:-40,
+      left:10
+    },
+    userInfo: {
+      paddingTop:55,
+      zIndex:20,
+      paddingHorizontal:10,
+      paddingBottom:10,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderColor: '#A8A8A8'
+    },
+    nick: {
+      paddingTop:10,
+      fontSize: 24,
+      fontWeight: 'bold'
+    },
+    bio: {
+      fontSize: 12,
+      marginTop: 8,
+      lineHeight: 18,
+    },
+    tag: {
+      fontSize: 11,
+      color:'#808080'
+    },
+    editBtn:{
+      position:'absolute',
+      bottom:-40,
+      right: 10
+    },
 });

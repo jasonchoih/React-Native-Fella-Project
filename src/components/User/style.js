@@ -22,14 +22,15 @@ export default styles = StyleSheet.create({
       color:'#808080'
     },
     userInfo: {
-      paddingTop:50,
-      paddingBottom: 10,
-      backgroundColor:'#fff',
-      paddingHorizontal:10
+      paddingTop:55,
+      zIndex:20,
+      paddingHorizontal:10,
+      paddingBottom:10
     },
     nick: {
+      paddingTop:10,
       fontSize: 24,
-      fontWeight: 'bold',
+      fontWeight: 'bold'
     },
     bio: {
       fontSize: 12,
