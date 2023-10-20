@@ -11,25 +11,29 @@ import styles from 'config/styles';
 // 
 export default ({route}) => 
 {
-  const { userInfo, isRefreshingUser, userFollowReload, User_replies } = useSelector((state) => state.models);
+  const { userInfo, isRefreshingUser, userFollowReload } = useSelector((state) => state.models);
   const Auth = useSelector((state) => state.auths);
   const [ onProfileTab, setTab ] = useState('posts');
   // 
-  const user_id = route.params&&route.params.user_id || Auth.id;
+  const user_id = (route.params&&route.params.user_id) || Auth.id;
   // 
   const dispatch = useDispatch();
   // 
   useFocusEffect(
     useCallback(() => {
-      if(user_id==Auth.id){
+      SEND('user/user_info', {user_id, following_id:Auth.id});
+      SEND(`user/${onProfileTab}`, {user_id, following_id:Auth.id});
+    }, [Auth])
+  );
+  // 
+  useEffect(()=>{
+    if(user_id==Auth.id){
         dispatch.models.SET({
           userInfo: {...Auth}
         })
         return;
       }
-      SEND('user/user_info', {user_id, following_id:Auth.id});
-    }, [Auth])
-  );
+  },[Auth])
   // 
   useEffect(()=>{
     if(!userInfo) return;
@@ -74,7 +78,7 @@ export default ({route}) =>
       <Text style={styles.nick}>{userInfo&&userInfo.nick || '-'}</Text>
       <Text style={styles.mini}>@{userInfo&&userInfo.tag || 'tag'}</Text>
       <Text style={styles.bio}>{userInfo&&userInfo.bio || 'No bio set'}</Text>
-      <Text style={[styles.mini, {color:'blue'}]} onPress={() => Linking.openURL(userInfo&&userInfo.website )}>{userInfo&&userInfo.website || 'No website set'}</Text>
+      <Text style={styles.mini}>{userInfo&&userInfo.website || 'No website set'}</Text>
       <Text style={styles.mini}>Joined {userInfo&&userInfo.joined}</Text>
       <View style={{flexDirection:'row', columnGap:10}}>
         <Text>{userInfo&&userInfo.following} <Text style={styles.tag}>Following</Text></Text>

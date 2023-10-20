@@ -1,10 +1,9 @@
 import { useEffect, useCallback, useState } from 'react';
-import { View, TouchableWithoutFeedback, SafeAreaView, RefreshControl } from 'react-native';
-import { Text } from 'native-base';
+import { View, TouchableWithoutFeedback, SafeAreaView, RefreshControl, ActivityIndicator } from 'react-native';
+import { Text, Center } from 'native-base';
 import { useFocusEffect } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { SEND } from 'store';
-import { findArrIndex } from 'utils/tool';
 // 
 import Main from 'components/Feed/main';
 // 
@@ -13,9 +12,11 @@ import { ScrollView } from 'native-base';
 // 
 export default ({navigation}) =>
 {
-  const { Feed_you, Feed, FeedComment, FeedLike, Feed_following, isRefreshingFeed } = useSelector((state) => state.models);
+  const { Feed_you, Feed, FeedComment, FeedLike, Feed_following, isRefreshingFeed, isLoading } = useSelector((state) => state.models);
+  const Auth = useSelector((state) => state.auths);
   const [ onFeedTab, setTab ] = useState('you');
-  const [ isEnd, setEnd ] = useState(false);
+  const [ page, setPage ] = useState(1);
+  const [loading, setLoading] = useState(false);
   // 
   const dispatch = useDispatch();
   // 
@@ -31,16 +32,16 @@ export default ({navigation}) =>
     if(!Feed_you) return;
     if(FeedComment)
     {
-      const index = findArrIndex(Feed_you, FeedComment[0]);
+      const index = (Feed_you.findIndex(x => x.tweet_id == FeedComment.tweet_id));
       let newFeed = Feed_you;
       let newFollowingFeed;
-      newFeed[index][9] = FeedComment[1];
+      newFeed[index].comments = FeedComment.comments;
       // 
       if(Feed_following){
-        const index = findArrIndex(Feed_following, FeedComment[0]);
-        if(!index) return;
+        const index = (Feed_following.findIndex(x => x.tweet_id == FeedComment.tweet_id));
+        if(index==-1) return;
         newFollowingFeed = Feed_following;
-        newFollowingFeed[index][9] = FeedComment[1];
+        newFollowingFeed[index].comments = FeedComment.comments;
       }
       // 
       dispatch.models.SET({ 
@@ -55,18 +56,19 @@ export default ({navigation}) =>
   useEffect(()=>{
     if(!Feed_you) return;
     if(FeedLike){
-      const index = findArrIndex(Feed_you, FeedLike[0]);
+      const index = (Feed_you.findIndex(x => x.tweet_id == FeedLike.tweet_id));
+      if(index==-1) return;
       let newFeed = Feed_you;
       let newFollowingFeed;
-      newFeed[index][8] = FeedLike[1];
-      newFeed[index][7] = FeedLike[2];
+      newFeed[index].likes = FeedLike.likes;
+      if(FeedLike.isLiked_user_id == Auth.id) newFeed[index].active = FeedLike.active;
       // 
       if(Feed_following){
-        const index = findArrIndex(Feed_following, FeedLike[0]);
-        if(!index) return;
+        const index = (Feed_following.findIndex(x => x.tweet_id == FeedLike.tweet_id));
+        if(index==-1) return;
         newFollowingFeed= Feed_following;
-        newFollowingFeed[index][8] = FeedLike[1];
-        newFollowingFeed[index][7] = FeedLike[2];
+        newFollowingFeed[index].likes = FeedLike.likes;
+        if(FeedLike.isLiked_user_id == Auth.id) newFollowingFeed[index].active = FeedLike.active;
       }
       // 
       dispatch.models.SET({ 
@@ -101,10 +103,19 @@ export default ({navigation}) =>
     SEND(`tweet/${onFeedTab}`, {});
   };
   // 
-  const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
-    const paddingToBottom = 20;
-    return layoutMeasurement.height + contentOffset.y >=
-      contentSize.height - paddingToBottom;
+  const handleScroll = (event) => {
+    const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
+    const paddingToBottom = 10;
+    if (
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+    ) {
+      if (!isLoading) {
+        dispatch.models.SET({isLoading:true})
+        setPage(page+1)
+        SEND(`tweet/${onFeedTab}`, {page:page});
+      }
+    }
   };
   // 
   return <SafeAreaView style={{flex:1}}>
@@ -121,15 +132,8 @@ export default ({navigation}) =>
       <ScrollView 
         stickyHeaderIndices={[0]}
         refreshControl={<RefreshControl refreshing={isRefreshingFeed || false} onRefresh={onRefresh} />}
-        onScroll={({nativeEvent}) => {
-          if (isCloseToBottom(nativeEvent)) {
-            // enableSomeButton();
-            if(isEnd) return;
-            console.log('reached End')
-            setEnd(true)
-          }
-        }}
         scrollEventThrottle={400}
+        onScroll={handleScroll}
       >
         <>
           <View style={[{flexDirection:'row', justifyContent:'space-evenly'}, styles.tweetContainer]}>
@@ -143,7 +147,10 @@ export default ({navigation}) =>
           </View>
         </>
         <Main onFeedTab={onFeedTab} />
+        {isLoading&&<Center> <ActivityIndicator size="large" /> </Center>}
       </ScrollView>
+      
     </View>
+   
   </SafeAreaView>
 }

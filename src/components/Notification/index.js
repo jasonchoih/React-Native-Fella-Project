@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import * as Device from 'expo-device';
+import { View, Text, Button } from 'react-native'
 import * as Notifications from 'expo-notifications';
 // 
 Notifications.setNotificationHandler({
@@ -59,7 +61,7 @@ export default () =>
         });
       };
     //   
-    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    return <View>
         <Text>Push Notification Example</Text>
         <Button title="Send Notification" onPress={sendPushNotification} />
         <Button

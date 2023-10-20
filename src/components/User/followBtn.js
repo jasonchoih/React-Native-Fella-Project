@@ -20,21 +20,11 @@ export default (d) =>
         </Button>
     )
 
-    return <>
-        {isFollowed ? <Button 
-            size='xs' 
-            style={styles.editBtn}
-            onPress={()=>SEND('user/unfollow', {following_id: user_id})}
-        >
-            Unfollow
-        </Button> :
-        <Button 
-            size='xs' 
-            style={styles.editBtn}
-            onPress={()=>SEND('user/follow', {following_id: user_id})}
-        >
-            Follow
-        </Button>
-    }
-    </>
+    return<Button 
+        size='xs' 
+        style={styles.editBtn}
+        onPress={()=>SEND( isFollowed ? 'user/unfollow' :'user/follow' , {following_id: user_id})}
+    >
+        {isFollowed ? 'Unfollow' : 'Follow'}
+    </Button> 
 }

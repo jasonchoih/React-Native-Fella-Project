@@ -25,7 +25,7 @@ export default props =>
     // 
     const handleComment = (tweetInfo) => navigation.navigate('feedInfo', tweetInfo);
     // 
-    const getUserInfo = (user_id) => navigation.navigate('userInfo', {user_id})
+    const getUserInfo = (user_id) => navigation.navigate('userInfo', { user_id })
     // 
     useEffect(()=>{
         if(feedData) return;
@@ -48,22 +48,25 @@ export default props =>
     //     }
     // };
     // 
-    
+    // 
+    if(feedData&&feedData.length === 0) return <View>
+        <Text>No data Bitch</Text>
+    </View>
     // 
     return <View>
         {feedData ? feedData.map((v,k)=>(
-            <Box key={k} style={styles.tweetContainer}>
+            <Box key={v.tweet_id} style={styles.tweetContainer}>
                 <TouchableWithoutFeedback onPress={()=>handleComment({tweetInfo:v})}>
                     <View style={{flexDirection:'row', columnGap:10}}>
                         <View style={{flexBasis:40}}>
                             <Center>
-                                <TouchableWithoutFeedback onPress={()=>getUserInfo(v[2])}>
+                                <TouchableWithoutFeedback onPress={()=>getUserInfo(v.user_id)}>
                                     <Image 
                                         size="xs"
                                         borderRadius={150}
                                         alt={v[4] || 'Profile Picture'}
                                         source={{
-                                            uri: (v[4]&&"https://s3.amazonaws.com/fella-storage.com/Users/profile/"+v[4])  || 'https://assets.wfcdn.com/im/62631921/compr-r85/2137/213721793/cute-shiba-inu-dog-paws-up-over-wall-dog-face-cartoon-vector-illustration-on-canvas-by-chayapoll-tummakorn-print.jpg'
+                                            uri: (v.image_profile&&"https://s3.amazonaws.com/fella-storage.com/Users/profile/"+v.image_profile)  || 'https://assets.wfcdn.com/im/62631921/compr-r85/2137/213721793/cute-shiba-inu-dog-paws-up-over-wall-dog-face-cartoon-vector-illustration-on-canvas-by-chayapoll-tummakorn-print.jpg'
                                         }}
                                     />
                                 </TouchableWithoutFeedback>
@@ -73,33 +76,33 @@ export default props =>
                         <View style={{flex:1, flexBasis:'auto'}}>
 
                             <View style={{flexDirection:'row', columnGap:5}}>
-                                <TouchableWithoutFeedback onPress={()=>{navigation.navigate('userInfo', {user_id: v[2]})}}>
-                                    <Text style={styles.fb}>{v[1]}</Text>
+                                <TouchableWithoutFeedback onPress={()=>getUserInfo(v.user_id)}>
+                                    <Text style={styles.fb}>{v.nick}</Text>
                                 </TouchableWithoutFeedback>
-                                <TouchableWithoutFeedback onPress={()=>{navigation.navigate('userInfo', {user_id: v[2]})}}>
-                                    <Text style={styles.c8}>@{`${v[3]} ${v[10]} ago`}</Text>
+                                <TouchableWithoutFeedback onPress={()=>getUserInfo(v.user_id)}>
+                                    <Text style={styles.c8}>@{`${v.tag} ${v.created} ago`}</Text>
                                 </TouchableWithoutFeedback>
                             </View>
                             <TouchableWithoutFeedback onPress={()=>handleComment({tweetInfo:v})}>
                                 <Text numberOfLines={5}>
-                                    {Mention(v[5], navigation)}
+                                    {Mention(v.content, navigation)}
                                 </Text>
                             </TouchableWithoutFeedback>
 
-                            {v[6]['type'] && 
+                            {v.media['type'] && 
                                 <View style={styles.mediaPreview}>
-                                    {v[6]['type']== 'video' ? (
+                                    {v.media['type']== 'video' ? (
                                         <Video
                                             style={styles.media} 
-                                            source={{ uri: 'https://s3.amazonaws.com/fella-storage.com/Tweets/' + v[6]['uri']}} 
+                                            source={{ uri: 'https://s3.amazonaws.com/fella-storage.com/Tweets/' + v.media['uri']}} 
                                             useNativeControls
                                         />
                                     ) : (
                                         <TouchableWithoutFeedback onPress={()=> handleComment({tweetInfo:v})}>
                                             <Image 
-                                                alt={v[6]['uri']}
+                                                alt={v.media['uri']}
                                                 style={styles.media} 
-                                                source={{ uri:'https://s3.amazonaws.com/fella-storage.com/Tweets/' + v[6]['uri']}} 
+                                                source={{ uri:'https://s3.amazonaws.com/fella-storage.com/Tweets/' + v.media['uri']}} 
                                             /> 
                                         </TouchableWithoutFeedback>
                                     )}
@@ -107,8 +110,8 @@ export default props =>
                             }
 
                             <View style={{flexDirection: 'row', alignItems:'center', columnGap:10, paddingTop:10}}>
-                                <HandleLike tweet_id={v[0]} isLiked={v[7]} likes={v[8]} />
-                                <HandleComment comments={v[9]} tweetInfo={{tweetInfo:v}} />
+                                <HandleLike tweet_id={v.tweet_id} isLiked={v.active} likes={v.likes} />
+                                <HandleComment comments={v.comments} tweetInfo={{tweetInfo:v}} />
                             </View>
 
                         </View>

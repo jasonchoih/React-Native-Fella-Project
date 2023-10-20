@@ -13,7 +13,7 @@ export default props =>
         style={styles.actionButton} 
         onPress={()=>navigation.navigate('feedInfo', tweetInfo)}
     >
-        <FontAwesome5 name="comment" size={14} color="#808080" />
+        <FontAwesome5 name="comment" size={16} color="#808080" />
         <Text style={styles.actionButtonText}>{comments}</Text>
     </TouchableOpacity>
 }

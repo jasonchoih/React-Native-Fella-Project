@@ -1,41 +1,24 @@
-import React, { useState } from 'react';
+import { useState} from 'react';
 import { Text, TouchableOpacity } from 'react-native';
-import { FontAwesome, AntDesign } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import styles from 'config/styles';
 import { SEND } from 'store';
 // 
 export default (d) => 
 {
     const { isLiked, likes, tweet_id } = d;
+    const [ _isLiked, setIsLiked ] = useState(isLiked);
     // 
-    const [_isLiked, setIsLiked] = useState(isLiked);
-    const [ likeCount, setLikeCount ] = useState(likes);
-
     return <TouchableOpacity style={styles.actionButton}>
-        {_isLiked ? 
-            <FontAwesome 
-                onPress={()=>{
-                    setIsLiked(false);
-                    setLikeCount(likeCount-1);
-                    SEND('tweet/unlike',{tweet_id});
-                }}
-                name="heart" 
-                size={14} 
-                color="#E0245E" 
-            />
-        : 
-            <AntDesign 
-                onPress={()=>{
-                    setIsLiked(true);
-                    setLikeCount(likeCount+1); 
-                    SEND('tweet/like',{tweet_id});
-                }}
-                name="hearto" 
-                size={14} 
-                color="#808080" 
-            />
-        
-        }
-        <Text style={[styles.actionButtonText, _isLiked ? {color:'#E0245E'}:{}]}>{likeCount}</Text>
+        <AntDesign 
+            onPress={()=>{  
+                SEND(_isLiked ? 'tweet/unlike' : 'tweet/like', {tweet_id});
+                _isLiked ? setIsLiked(false) : setIsLiked(true);
+            }}
+            name={ _isLiked ? "heart" : "hearto"}
+            size={16}
+            color={_isLiked ? "#E0245E" : "#808080" }
+        />
+        <Text style={[styles.actionButtonText, _isLiked ? {color:'#E0245E'}:{}]}>{likes}</Text>
     </TouchableOpacity>
 };

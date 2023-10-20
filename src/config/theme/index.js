@@ -53,8 +53,8 @@ export default theme = extendTheme({
     // },
     Text: {
       defaultProps: {
-        fontSize:12,
-        fontFamily:'Helvetica Neue',
+        fontSize:13,
+        // fontFamily:'Helvetica Neue',
         _dark:{
           color:"#fff"
         },

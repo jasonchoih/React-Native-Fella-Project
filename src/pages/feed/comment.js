@@ -15,7 +15,7 @@ import styles from 'config/styles';
 export default ({navigation, route}) =>
 {
     if (!route.params) return <></>;
-    const tweetInfo = route.params.tweetInfo;
+    const tweetInfo = route.params;
     // 
     const { UserList, media } = useSelector((state) => state.models);
     const Auth = useSelector((state) => state.auths);
@@ -45,7 +45,7 @@ export default ({navigation, route}) =>
     },[keys])
     // 
     const onSubmit = v => {
-        SEND('tweet/comment_add', { ...v, ...media, ...{tweet_id: tweetInfo[0], id:Auth.id, nick:Auth.nick, tag:Auth.tag}})
+        SEND('tweet/comment_add', { ...v, ...media, ...{tweet_id: tweetInfo.tweet_id, id:Auth.id, nick:Auth.nick, tag:Auth.tag}})
         dispatch.models.SET({media:''})
         navigation.pop();
     };
@@ -104,7 +104,7 @@ export default ({navigation, route}) =>
                             borderRadius={150}
                             alt={tweetInfo[4] || 'Profile Picture'}
                             source={{
-                                uri: (tweetInfo[4]&&"https://s3.amazonaws.com/fella-storage.com/Users/profile/"+tweetInfo[4])  || 'https://assets.wfcdn.com/im/62631921/compr-r85/2137/213721793/cute-shiba-inu-dog-paws-up-over-wall-dog-face-cartoon-vector-illustration-on-canvas-by-chayapoll-tummakorn-print.jpg'
+                                uri: (tweetInfo.image_profile&&"https://s3.amazonaws.com/fella-storage.com/Users/profile/"+tweetInfo.image_profile)  || 'https://assets.wfcdn.com/im/62631921/compr-r85/2137/213721793/cute-shiba-inu-dog-paws-up-over-wall-dog-face-cartoon-vector-illustration-on-canvas-by-chayapoll-tummakorn-print.jpg'
                             }}
                         />
                     </Center>
