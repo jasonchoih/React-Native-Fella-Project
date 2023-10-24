@@ -34,7 +34,8 @@ export default ({navigation}) =>
         User_posts:'',
         User_replies:'',
         User_media:'',
-        User_likes:''
+        User_likes:'',
+        commentPage:1
       })
     }, [])
   );
@@ -116,9 +117,6 @@ export default ({navigation}) =>
         Feed_you_lazy:''
       });
     }
-    // dispatch.models.SET({ 
-    //   Feed_you_lazy: '',
-    // });
   }, [Feed_you_lazy]);
   // 
   useEffect(() => {
@@ -130,9 +128,6 @@ export default ({navigation}) =>
         Feed_following_lazy:''
       });
     }
-    // dispatch.models.SET({ 
-    //   Feed_following_lazy: '',
-    // });
   }, [Feed_following_lazy]);
   // 
   return <>

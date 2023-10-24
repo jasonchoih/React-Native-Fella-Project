@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { View, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, TouchableOpacity, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
 import { FlashList } from "@shopify/flash-list";
-import { Image, Text, Box } from 'native-base';
+import { Image, Text, Center } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 import { Video } from 'expo-av';
@@ -12,6 +12,7 @@ import { toNow } from 'utils/tool';
 import HandleLike from 'components/Feed/tweetLike';
 import CommmentLike from 'components/Feed/commentLike';
 import { Mention } from 'components/Tool/Mention';
+import Empty from 'components/Empty';
 // 
 import styles from 'config/styles';
 // 
@@ -20,8 +21,9 @@ export default ({route}) =>
   if (!route.params.tweetInfo) return <></>;
   const { tweetInfo } = route.params;
   //
-  const { CommentList, Comment, CommentLike } = useSelector((state) => state.models);
+  const { CommentList, Comment, CommentLike, isCommentLazyButtonLoading, comments_lazy_final, commentPage, comments_lazy } = useSelector((state) => state.models);
   const Auth = useSelector((state) => state.auths);
+  const pageSize = 50;
   // 
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -63,6 +65,17 @@ export default ({route}) =>
       });
     }
   }, [CommentLike]);
+  // 
+  useEffect(() => {
+    if(!comments_lazy) return;
+    if(CommentList)
+    {
+      dispatch.models.SET({ 
+        CommentList: [ ...CommentList, ...comments_lazy ],
+        comments_lazy:'',
+      });
+    }
+  }, [comments_lazy]);
   // 
   const handleComment = () => navigation.navigate('feedComment', tweetInfo);
   // 
@@ -122,6 +135,28 @@ export default ({route}) =>
         </View>
       </View>
     </View>
+    }
+    // 
+    const Footer = () =>
+    {
+        if(comments_lazy_final) return <Center>
+            <Text>You reached the end</Text>
+        </Center>
+        if(isCommentLazyButtonLoading) return <Center py={3}>
+            <ActivityIndicator size="large" />
+        </Center>
+    }
+    // 
+    const onEndReached = () =>
+    {
+        if(!CommentList || CommentList&&CommentList.length < 49) return;
+        // 
+        if(isCommentLazyButtonLoading) return;
+        SEND('comment/list',{tweet_id: tweetInfo.tweet_id, offset:(commentPage||1)*pageSize});
+        dispatch.models.SET({ 
+          commentPage: (commentPage||1)+1,
+          isCommentLazyButtonLoading:true
+        });
     }
     //
     const keyExtractor = item => item.comment_id;
@@ -192,18 +227,17 @@ export default ({route}) =>
       keyExtractor={keyExtractor}
       renderItem={Info}    
       extraData={keyExtractor}
-      // ListFooterComponent={Footer}
-      // ListEmptyComponent={<Empty data={CommentList&&CommentList} />} 
+      ListFooterComponent={Footer}
+      ListEmptyComponent={<Empty data={CommentList&&CommentList} />} 
       // refreshControl={<RefreshControl refreshing={isRefreshingFeed || false} onRefresh={onRefresh} />}
       // 
       initialNumToRender={10}
-      maxToRenderPerBatch={10}
+      maxToRenderPerBatch={50}
       windowSize={10}
       removeClippedSubviews={true}
-      estimatedItemSize={200}
+      estimatedItemSize={1000}
       // 
-      // onEndReached={onEndReached}
-      // ref={flatListRef}
+      onEndReached={onEndReached}
     />
 
   </>

@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { View, TouchableWithoutFeedback, RefreshControl, ActivityIndicator } from 'react-native';
-import { Center, Image, Text, Button } from 'native-base';
+import { Center, Image, Text } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 // import * as Sharing from 'expo-sharing';
@@ -12,11 +12,10 @@ import { FlashList } from "@shopify/flash-list";
 //
 import styles from 'config/styles';
 // 
-import Empty from 'components/Empty';
-// 
 import HandleLike from 'components/Feed/tweetLike';
 import HandleComment from 'components/Feed/tweetComment';
 import { Mention } from 'components/Tool/Mention';
+import Empty from 'components/Empty';
 // 
 export default props =>
 {
@@ -102,33 +101,33 @@ export default props =>
     useEffect(()=>{
         if(!isUserDataLazyFinal) return;
         switch(onProfileTab){
-            case 'posts':
-              dispatch.models.SET({ 
-                User_posts_page: 1
-              });
-              break;
-            case 'replies':
-              dispatch.models.SET({ 
-                User_replies_page: 1
-              });
-              break;
-            case 'media':
-              dispatch.models.SET({ 
-                User_media_page: 1
-              });
-              break;
-            case 'likes':
-              dispatch.models.SET({ 
-                User_likes_page: 1
-              });
-              break;
+          case 'posts':
+            dispatch.models.SET({ 
+              User_posts_page: 1
+            });
+          break;
+          case 'replies':
+            dispatch.models.SET({ 
+              User_replies_page: 1
+            });
+          break;
+          case 'media':
+            dispatch.models.SET({ 
+              User_media_page: 1
+            });
+          break;
+          case 'likes':
+            dispatch.models.SET({ 
+              User_likes_page: 1
+            });
+          break;
         }
     },[isUserDataLazyFinal])
     // 
     const Footer = () =>
     {
         if(isUserDataLazyFinal) return <Center>
-            <Text>No more data</Text>
+          <Text>You reached the end</Text>
         </Center>
         if(isUserLazyButtonLoading) return <Center py={3}>
             <ActivityIndicator size="large" />
@@ -141,32 +140,31 @@ export default props =>
         // 
         if(isUserLazyButtonLoading) return;
         SEND(`user/${onProfileTab}`, {user_id, following_id:Auth, offset:(userPage||1)*pageSize});
-        // setPage(page+1)
         switch(onProfileTab){
-            case 'posts':
-              dispatch.models.SET({ 
-                User_posts_page: (userPage||1)+1,
-                isUserLazyButtonLoading:true
-              });
-              break;
-            case 'replies':
-              dispatch.models.SET({ 
-                User_replies_page:(userPage||1)+1,
-                isUserLazyButtonLoading:true
-              });
-              break;
-            case 'media':
-              dispatch.models.SET({ 
-                User_media_page: (userPage||1)+1,
-                isUserLazyButtonLoading:true
-              });
-              break;
-            case 'likes':
-              dispatch.models.SET({ 
-                User_likes_page: (userPage||1)+1,
-                isUserLazyButtonLoading:true
-              });
-              break;
+          case 'posts':
+            dispatch.models.SET({ 
+              User_posts_page: (userPage||1)+1,
+              isUserLazyButtonLoading:true
+            });
+          break;
+          case 'replies':
+            dispatch.models.SET({ 
+              User_replies_page:(userPage||1)+1,
+              isUserLazyButtonLoading:true
+            });
+          break;
+          case 'media':
+            dispatch.models.SET({ 
+              User_media_page: (userPage||1)+1,
+              isUserLazyButtonLoading:true
+            });
+          break;
+          case 'likes':
+            dispatch.models.SET({ 
+              User_likes_page: (userPage||1)+1,
+              isUserLazyButtonLoading:true
+            });
+          break;
         }
     }
     // 
@@ -188,10 +186,10 @@ export default props =>
         ListEmptyComponent={<Empty data={userData} />} 
         // 
         initialNumToRender={10}
-        maxToRenderPerBatch={10}
+        maxToRenderPerBatch={50}
         windowSize={10}
         removeClippedSubviews={true}
-        estimatedItemSize={200}
+        estimatedItemSize={1000}
         // 
         refreshControl={<RefreshControl refreshing={isRefreshingUser || false} onRefresh={onRefresh} />}
         // 
