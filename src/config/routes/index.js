@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Image } from 'react-native';
+import { Image, useColorScheme } from 'react-native';
 // 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
@@ -9,7 +9,7 @@ import * as Notifications from 'expo-notifications';
 // 
 import { Chat, OverlayProvider } from 'stream-chat-expo'; 
 import { StreamChat } from 'stream-chat';
-import { chatApiKey, chatUserId, chatUserName } from 'config/chat';
+import { lightMode, darkMode } from 'config/chat/style';
 // 
 import Wrapper from 'components/Authorization';
 import HomeRoutes from './home';
@@ -31,7 +31,8 @@ export default () =>
 {
   const { Auth, AuthDel, A, Notify } = useSelector((state) => state.models);
   const NotifyAuth = useSelector((state) => state.auths);
-  const chatClient = StreamChat.getInstance(chatApiKey);
+  const chatClient = StreamChat.getInstance('799kryjx93qh');
+  const scheme = useColorScheme();
   // 
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -75,16 +76,17 @@ export default () =>
 }, [Notify]);
   // 
   useEffect(() => {
+    if(Object.keys(NotifyAuth).length == 0) return;
     async function chats() {
       try {
         // 
         await chatClient.connectUser(
             {
-              id: chatUserId,
-              name: chatUserName,
-              image: 'https://i.imgur.com/fR9Jz14.png',
+              id: NotifyAuth&&NotifyAuth.chat_id,
+              name: NotifyAuth&&NotifyAuth.nick,
+              image: 'https://media.istockphoto.com/id/1283861469/vector/cute-shiba-inu-japanese-orange-dog-sit-and-using-computer-laptop-for-freelance-working-job.jpg?s=612x612&w=0&k=20&c=d8HIRZdu8YZgBOlSk73PBRMrl0us9jyfTnqoFkEkb_M=',
             },
-            chatClient.devToken(chatUserId)
+            NotifyAuth&&NotifyAuth.chat_tok
           );
       } catch (e) {
         // console.warn(e);
@@ -93,10 +95,10 @@ export default () =>
         // 
       }
     }
-    // chats();
-}, []);
+    chats();
+}, [NotifyAuth]);
   // 
-  return <OverlayProvider>
+  return <OverlayProvider value={scheme === 'dark' ? {style:darkMode} : {style:lightMode}}>
     <Chat client={chatClient}>
       <Tab.Navigator
         initialRouteName="home"      
@@ -124,6 +126,7 @@ export default () =>
               height: 95
             },
             headerTitle: () => <Image
+                alt='header'
                 style={{width:35, height:35, marginBottom:2}} 
                 source={require('../../../assets/shiba.png')} 
             />

@@ -44,7 +44,7 @@ export default () =>
                            });
                            navigation.dispatch(TabActions.jumpTo('home'));
                         }}>
-                        <Ionicons name="exit-outline" size={20} color="black" />
+                        <Ionicons name="exit-outline" size={20} color="#808080" />
                     </TouchableWithoutFeedback>
                 })}
             />

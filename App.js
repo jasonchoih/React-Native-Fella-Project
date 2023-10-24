@@ -5,7 +5,7 @@ import { PersistGate } from "redux-persist/lib/integration/react";
 import { store, persistor } from 'store';
 import { NativeBaseProvider } from "native-base";
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-gesture-handler';

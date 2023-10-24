@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { Input, FormControl, Box, Heading, Text, Button, WarningOutlineIcon, Icon, Divider, Center, Image } from "native-base";
-import {  } from 'react-native'
+import { View } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'; 
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from '@react-navigation/native';
 import { SEND } from 'store';
+// 
+import login from '../../../assets/auth/login.png'
 // 
 // import PhoneCode from 'components/Tool/PhoneCode';
 // 
@@ -70,9 +72,7 @@ export default ({navigation}) =>
                     size={150} 
                     borderRadius={100}
                     alt="Fella Login" 
-                    source={{
-                        uri: "https://img.freepik.com/free-vector/cute-happy-shiba-inu-dog-cartoon-vector-icon-illustration-animal-nature-icon-concept-isolated-flat_138676-8180.jpg?w=1480&t=st=1696803612~exp=1696804212~hmac=93d371f880a02097164751e8c96c2ecf34c9c36d5255e8885b7139172240dab2"
-                    }}
+                    source={login}
                 />
             </Center>
             <Box>
@@ -87,7 +87,10 @@ export default ({navigation}) =>
                             placeholder="Type your email" 
                             value={value}
                             onChangeText={value => onChange(value)}
-                            InputLeftElement={<Icon as={<AntDesign name="mail" color="black" />} size={5} ml="3" color="muted.400" />}
+                            InputLeftElement={<Icon as={<AntDesign name="mail"/>} size={5} ml="3" color="muted.400" />}
+                            backgroundColor="#fff"
+                            borderColor="#fff"
+                            color="#000"
                         />
                         <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
                             <Text style={{color:"#DC143C"}}>{errors?.email && errors.email.message}</Text>
@@ -108,6 +111,9 @@ export default ({navigation}) =>
                             value={value}
                             onChangeText={value => onChange(value)}
                             InputLeftElement={<Icon as={<AntDesign name="lock1" />} size={5} ml="3" color="muted.400" />}
+                            backgroundColor="#fff"
+                            borderColor="#fff"
+                            color="#000"
                         />
                         <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
                             <Text style={{color:"#DC143C"}}>{errors?.pass && errors.pass.message}</Text>

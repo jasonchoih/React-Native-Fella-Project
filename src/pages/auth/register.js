@@ -104,6 +104,9 @@ export default ({navigation}) =>
                             value={value}
                             onChangeText={value => onChange(value)}
                             InputLeftElement={<Icon as={<AntDesign name="mail" size={24} />} size={5} ml="3" color="muted.400" />}
+                            backgroundColor="#fff"
+                            borderColor="#fff"
+                            color="#000"
                         />
                         <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
                             <Text style={{color:"#DC143C"}}>{errors?.email && errors.email.message}</Text>
@@ -124,6 +127,9 @@ export default ({navigation}) =>
                             value={value}
                             onChangeText={value => onChange(value)}
                             InputLeftElement={<Icon as={<AntDesign name="lock1" />} size={5} ml="3" color="muted.400" />}
+                            backgroundColor="#fff"
+                            borderColor="#fff"
+                            color="#000"
                         />
                         <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
                             <Text style={{color:"#DC143C"}}>{errors?.pass && errors.pass.message}</Text>
@@ -143,6 +149,9 @@ export default ({navigation}) =>
                             value={value}
                             onChangeText={value => onChange(value)}
                             InputLeftElement={<Icon as={<MaterialIcons name="person" />} size={5} ml="3" color="muted.400" />}
+                            backgroundColor="#fff"
+                            borderColor="#fff"
+                            color="#000"
                         />
                         <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
                             <Text style={{color:"#DC143C"}}>{errors?.nick && errors.nick.message}</Text>

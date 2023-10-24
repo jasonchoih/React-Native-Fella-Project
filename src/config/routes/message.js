@@ -15,10 +15,11 @@ export default () =>
             component={ChannelList}
             options={{ 
                 headerStyle: {
-                    backgroundColor: '#bcefff',
+                    // backgroundColor: '#bcefff',
                     height: 93
                   },
                 headerTitle: () => <Image
+                    alt="chat_header"
                     style={{width:35, height:35}} 
                     source={require('../../../assets/shiba.png')} 
                 />

@@ -13,6 +13,7 @@ export default styles = StyleSheet.create({
     p5: {padding:5},
     p10: {padding:10},
     mb10: {marginBottom:10},
+    mb20:  {marginBottom:20},
     tc: {textAlign:'center'},
     be: {backgroundColor:"yellow"},
     bb: {backgroundColor:"#000"},

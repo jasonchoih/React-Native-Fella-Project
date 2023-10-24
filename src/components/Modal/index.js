@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Modal } from "native-base";
+import { Button, Modal, Center, Image } from "native-base";
 import { useNavigation } from '@react-navigation/native';
 // 
 export default () => 
 {
-  const { M } = useSelector((state) => state.models);
+  const { M, bonk } = useSelector((state) => state.models);
   //
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -42,7 +42,9 @@ export default () =>
       
       <Modal.Header>{!t?'Notice':t}</Modal.Header>
 
-      <Modal.Body>{c&&c}</Modal.Body>
+      <Modal.Body>
+        {c&&c}
+      </Modal.Body>
 
       {f?<Modal.Footer>
         <Button.Group space={2}>

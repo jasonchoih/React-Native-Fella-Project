@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
-import { chatApiKey, chatUserId, chatUserName } from 'config/chat';
+import { useSelector } from 'react-redux';
 import { ChannelList } from 'stream-chat-expo'; 
 import { useAppContext } from 'config/chat/chatContext';
 // 
 export default props =>
 {
+  const Auth = useSelector((state) => state.auths);
   const { setChannel } = useAppContext();
   // 
   const filters = {
       members: {
-        '$in': [chatUserId]
+        '$in': [Auth.chat_id]
       },
   };
   // 

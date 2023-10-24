@@ -3,8 +3,9 @@ import { store } from 'store';
 // 
 const s3 = new S3({
   accessKeyId: 'AKIAVKCASMRC2PNL5C6M',
-  secretAccessKey: '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',
+  secretAccessKey: 'MU+eJZyE+T8gJRtVJ1NMYg\/bV97O\/3E9kaoyKMGm',
   region: 'us-east-1',
+  signatureVersion: 'v4',
 });
 // 
 export const uploadToAws = async (uri, key) => 

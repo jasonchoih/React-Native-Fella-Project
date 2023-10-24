@@ -1,4 +1,4 @@
-import { Image, Center, Heading, Text } from 'native-base';
+import { Image, Center, Heading } from 'native-base';
 import { Link } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 // 

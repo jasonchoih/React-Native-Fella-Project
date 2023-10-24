@@ -21,16 +21,16 @@ export default theme = extendTheme({
         }
       },
     },
-    Box: {
-      // defaultProps:{
-      //   _dark:{
-      //     bg:"#252526"
-      //   },
-      //   _light:{
-      //     bg:"#fff"
-      //   }
-      // }
-    },
+    // Box: {
+    //   defaultProps:{
+    //     _dark:{
+    //       bg:"#fff"
+    //     },
+    //     _light:{
+    //       bg:"#fff"
+    //     }
+    //   }
+    // },
     // Input: {
     //   baseStyle: {
     //     border: 0

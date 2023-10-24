@@ -30,7 +30,7 @@ export default props =>
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       aspect: [4, 3],
-      quality: 1
+      quality: 1,
     });
     // 
     if (!result.canceled){

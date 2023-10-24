@@ -151,7 +151,7 @@ export default props =>
                                         useNativeControls
                                     />
                                 ) : (
-                                    <TouchableWithoutFeedback onPress={()=> handleComment({tweetInfo:v})}>
+                                    <TouchableWithoutFeedback onPress={()=> handleComment({tweetInfo:item})}>
                                         <Image 
                                             alt={item.media['uri']}
                                             fadeDuration={0}

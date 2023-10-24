@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "my-app",
-    "slug": "my-app",
+    "slug": "fella",
     "version": "1.0.0",
     "userInterfaceStyle": "automatic",
     "orientation": "portrait",
@@ -22,12 +22,22 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png"
       },
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "sourceExts": [ "js", "json", "ts", "tsx", "jsx", "vue"],
+    "sourceExts": [
+      "js",
+      "json",
+      "ts",
+      "tsx",
+      "jsx",
+      "vue"
+    ],
     "plugins": [
       [
         "expo-image-picker",
@@ -39,9 +49,17 @@
         "expo-notifications",
         {
           "icon": "./assets/shiba.png",
-          "sounds": ["./assets/sounds/bonk.wav"]
+          "sounds": [
+            "./assets/sounds/bonk.wav"
+          ]
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "860e377b-c7d8-466f-855d-c0a9aa56ba06"
+      }
+    },
+    "owner": "jchoi_su"
   }
 }

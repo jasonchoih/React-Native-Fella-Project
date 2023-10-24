@@ -1,20 +1,25 @@
 import { View, Image } from 'react-native';
 import { Text } from 'native-base';
 import styles from 'config/styles';
-import { Heading } from 'native-base';
-// 
+import { Heading, Center } from 'native-base';
+//
+import u24 from '../../../assets/support/u24.png' ;
+import alive from '../../../assets/support/alive.png' ;
+//
 export default () =>
 {
     const supports = [
         [
             'UNITED24', 
             'https://u24.gov.ua/', 
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/United24_full.svg/640px-United24_full.svg.png'
+            // 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/United24_full.svg/640px-United24_full.svg.png'
+            u24
         ],
         [
             'Come Back Alive', 
             'https://savelife.in.ua/en/', 
-            'https://good-time-invest.com/wp-content/uploads/2022/06/snimok-ekrana-2022-06-23-v-15.57.28.png'
+            // 'https://good-time-invest.com/wp-content/uploads/2022/06/snimok-ekrana-2022-06-23-v-15.57.28.png',
+            alive
         ],
         // [
         //     'Serhiy Prytula', 
@@ -28,17 +33,24 @@ export default () =>
         //  ]
     ];
     // 
-    return <View style={[styles.mb10]}>
-        <Heading mb={2}>Want to help Ukraine?</Heading>
-        <View style={[{flexDirection: 'row', flexWrap:'wrap', gap:5}]}>
+    return <View style={[styles.mb20]}>
+        <Heading mb={1}>Want to help Ukraine?</Heading>
+        <View style={[{flexDirection:'row', justifyContent:'space-evenly'}]}>
             {supports.map((v,k)=>(
-                <View style={[{borderWidth: 1, borderRadius:5, padding:5}, {width:"auto"}]} key={k}>
-                    <Image 
-                        source={{uri:v[2]}} 
-                        style={[{minHeight:100}, styles.mb10, styles.br10]}
-                        resizeMode='contain'
-                    />
-                    <Text style={{textAlign:'center', fontWeight: 'bold'}}>{v[0]}</Text>
+                <View style={[{padding:5}]} key={k}>
+                    <Center>
+                        <Image 
+                            source={v[2]}
+                            style={{ 
+                                height: undefined, 
+                                width: '60%%',
+                                aspectRatio: 3/2,
+                                borderRadius:5
+                            }} 
+                            resizeMode='contain'
+                        />
+                    </Center>
+                    {/* <Text style={{textAlign:'center', fontWeight: 'bold'}}>{v[0]}</Text> */}
                 </View>
             ))}
         </View>
