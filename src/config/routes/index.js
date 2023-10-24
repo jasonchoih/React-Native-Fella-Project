@@ -5,6 +5,7 @@ import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign, FontAwesome } from '@expo/vector-icons'; 
+import * as Notifications from 'expo-notifications';
 // 
 import { Chat, OverlayProvider } from 'stream-chat-expo'; 
 import { StreamChat } from 'stream-chat';
@@ -18,10 +19,19 @@ import UserRoutes from './user';
 // 
 import Support from 'pages/support';
 // 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
+// 
 export default () =>
 {
-  const { Auth, AuthDel, A } = useSelector((state) => state.models);
-  // const chatClient = StreamChat.getInstance(chatApiKey);
+  const { Auth, AuthDel, A, Notify } = useSelector((state) => state.models);
+  const NotifyAuth = useSelector((state) => state.auths);
+  const chatClient = StreamChat.getInstance(chatApiKey);
   // 
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -45,17 +55,37 @@ export default () =>
   }, [A]);
   // 
   useEffect(() => {
+    if(!Notify) return;
+    if(NotifyAuth.id!=Notify.user_id) return;
+    const { title, body, data, sound } = Notify;
+    async function notify() {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== 'granted') {
+        alert('You need to grant notification permissions to use this feature.');
+        return;
+      }
+      await Notifications.scheduleNotificationAsync({
+        content: { title, body, data, sound },
+        trigger: null
+      });
+      dispatch.models.SET({Notify:''})
+    }
+    notify();
+    
+}, [Notify]);
+  // 
+  useEffect(() => {
     async function chats() {
       try {
         // 
-        // await chatClient.connectUser(
-        //     {
-        //       id: chatUserId,
-        //       name: chatUserName,
-        //       image: 'https://i.imgur.com/fR9Jz14.png',
-        //     },
-        //     chatClient.devToken(chatUserId)
-        //   );
+        await chatClient.connectUser(
+            {
+              id: chatUserId,
+              name: chatUserName,
+              image: 'https://i.imgur.com/fR9Jz14.png',
+            },
+            chatClient.devToken(chatUserId)
+          );
       } catch (e) {
         // console.warn(e);
         console.log(e)
@@ -67,7 +97,7 @@ export default () =>
 }, []);
   // 
   return <OverlayProvider>
-    {/* <Chat client={chatClient}> */}
+    <Chat client={chatClient}>
       <Tab.Navigator
         initialRouteName="home"      
         screenOptions={{
@@ -90,7 +120,7 @@ export default () =>
             title: 'Support',
             tabBarIcon: () => <AntDesign name="hearto" color="#808080" size={18} />,
             headerStyle: {
-              backgroundColor: '#bcefff',
+              // backgroundColor: '#bcefff',
               height: 95
             },
             headerTitle: () => <Image
@@ -134,6 +164,6 @@ export default () =>
           />
         </Tab.Group>
       </Tab.Navigator>
-    {/* </Chat> */}
+    </Chat>
   </OverlayProvider>
 }

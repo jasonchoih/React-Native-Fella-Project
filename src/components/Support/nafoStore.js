@@ -10,11 +10,11 @@ export default () =>
             'https://nafo-ofan.org/collections/all', 
             'https://nafo-ofan.org/cdn/shop/products/kiss-cut-stickers-5.5x5.5-default-63d5702f345ab.png?v=1674932590'
         ],
-        [
-            'Saint Javelin', 
-            'https://www.saintjavelin.com/en-ua/collections/fellas-of-nafo', 
-            'https://www.saintjavelin.com/cdn/shop/files/SJ-Web-Home-Image-1_540x.png?v=1646293503'
-        ]
+        // [
+        //     'Saint Javelin', 
+        //     'https://www.saintjavelin.com/en-ua/collections/fellas-of-nafo', 
+        //     'https://www.saintjavelin.com/cdn/shop/files/SJ-Web-Home-Image-1_540x.png?v=1646293503'
+        // ]
     ];
     // 
     return <View style={styles.mb10}>

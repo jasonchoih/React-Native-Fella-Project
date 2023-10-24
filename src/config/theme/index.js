@@ -5,11 +5,12 @@ export default theme = extendTheme({
     useSystemColorMode: true,
   },
   colors: {
+
   },
   components: {
     Button: {
       baseStyle: {
-        borderRadius: 'full'
+        // borderRadius: 'full'
       },
       defaultProps:{
         _dark:{
@@ -30,12 +31,19 @@ export default theme = extendTheme({
       //   }
       // }
     },
-    Input: {
-      defaultProps: {
-        // variant: 'underlined',
-        // size: 'lg',
-      },
-    },
+    // Input: {
+    //   baseStyle: {
+    //     border: 0
+    //   },
+    //   defaultProps: {
+    //     _dark:{
+    //       bg:"#fff"
+    //     },
+    //     _light:{
+    //       bg:"#fff",
+    //     }
+    //   },
+    // },
     // FormControl:{
     //   baseStyle: {
     //     style:{

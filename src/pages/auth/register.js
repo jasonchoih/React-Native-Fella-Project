@@ -80,7 +80,7 @@ export default ({navigation}) =>
     // 
     return <Center height="100%" bgColor="#bcefff">
         <Box safeArea w="95%" maxW="290">
-            <Heading textAlign="center">NAFO Expansion</Heading>
+            <Heading style={{color:"#000"}} textAlign="center">NAFO Expansion</Heading>
             <Center>
                 <Image 
                     size={150} 
@@ -106,7 +106,7 @@ export default ({navigation}) =>
                             InputLeftElement={<Icon as={<AntDesign name="mail" size={24} />} size={5} ml="3" color="muted.400" />}
                         />
                         <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-                            {errors?.email && errors.email.message}
+                            <Text style={{color:"#DC143C"}}>{errors?.email && errors.email.message}</Text>
                         </FormControl.ErrorMessage>
                     </FormControl>
                     }
@@ -126,7 +126,7 @@ export default ({navigation}) =>
                             InputLeftElement={<Icon as={<AntDesign name="lock1" />} size={5} ml="3" color="muted.400" />}
                         />
                         <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-                            {errors?.pass && errors.pass.message}
+                            <Text style={{color:"#DC143C"}}>{errors?.pass && errors.pass.message}</Text>
                         </FormControl.ErrorMessage>
                     </FormControl>
                     }
@@ -145,13 +145,13 @@ export default ({navigation}) =>
                             InputLeftElement={<Icon as={<MaterialIcons name="person" />} size={5} ml="3" color="muted.400" />}
                         />
                         <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-                            {errors?.nick && errors.nick.message}
+                            <Text style={{color:"#DC143C"}}>{errors?.nick && errors.nick.message}</Text>
                         </FormControl.ErrorMessage>
                     </FormControl>
                     }
                 />
-                <Button mt={2} onPress={handleSubmit(onSubmit)} isLoading={RegisterLoading}>
-                    Join the Bonk
+                <Button style={{backgroundColor:'#ffac42'}} mt={2} onPress={handleSubmit(onSubmit)} isLoading={RegisterLoading}>
+                    <Text style={{color:"#000"}}>Join the Bonk</Text>
                 </Button>
                 <Divider my="6" 
                     _light={{
@@ -163,7 +163,7 @@ export default ({navigation}) =>
                     thickness="0.5"
                 />
                 <Center>
-                    <Text mb={2} fontSize="sm">
+                    <Text style={{color:"#000"}} mb={2} fontSize="sm">
                         Already Registered?
                         <Link to={{ screen: 'login' }}> Sign in now</Link>
                     </Text>

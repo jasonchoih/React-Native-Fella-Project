@@ -9,7 +9,7 @@ export default ({ children }) =>
     if (!Object.keys(Auth).length == 0) return children; 
     // 
     return <Center height="100%" bgColor="#bcefff">
-      <Heading>Authorized Fellas Only</Heading>
+      <Heading style={{color:"#000"}}>Authorized Fellas Only</Heading>
       <Image
         size={180} 
         alt="Fella Authorization" 

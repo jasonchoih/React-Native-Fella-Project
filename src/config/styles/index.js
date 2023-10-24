@@ -30,6 +30,12 @@ export default styles = StyleSheet.create({
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderColor: '#A8A8A8'
     },
+    ph10:{
+      paddingHorizontal:10
+    },
+    pv10:{
+      paddingVertical:10
+    },
     mini: {
       fontSize: 11,
       color:'#808080'
@@ -67,9 +73,10 @@ export default styles = StyleSheet.create({
       marginTop: 8
     },
     media:{
-      width:"auto", 
-      height: 200, 
-      borderRadius:10
+      height: undefined, 
+      width: '100%',
+      aspectRatio: 3/2,
+      borderRadius:5
     },
     actionButton: {
       flexDirection: 'row',
@@ -95,8 +102,7 @@ export default styles = StyleSheet.create({
     // 
     // Comments
     infoContainer: {
-      paddingLeft: 10,
-      paddingRight:10,
+      paddingHorizontal:10,
       paddingTop:10
     },
     actionsContainer: {
@@ -119,7 +125,7 @@ export default styles = StyleSheet.create({
       left:10
     },
     userInfo: {
-      paddingTop:55,
+      paddingTop:40,
       zIndex:20,
       paddingHorizontal:10,
       paddingBottom:10,
@@ -133,7 +139,7 @@ export default styles = StyleSheet.create({
     },
     bio: {
       fontSize: 12,
-      marginTop: 8,
+      marginTop: 6,
       lineHeight: 18,
     },
     tag: {

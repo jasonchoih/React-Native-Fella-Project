@@ -28,7 +28,7 @@ export default () =>
                         source={require('../../../assets/shiba.png')} 
                     />,
                     headerStyle: {
-                        backgroundColor: '#bcefff'
+                        // backgroundColor: '#bcefff'
                     },
                     headerLeft:() => <TouchableWithoutFeedback onPress={()=>navigation.pop()}>
                         <Text>{route&&route.params&&route.params.headerLeft}</Text>

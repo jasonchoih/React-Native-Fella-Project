@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Input, FormControl, Box, Heading, Text, Button, WarningOutlineIcon, Icon, Divider, Center, Image } from "native-base";
+import {  } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'; 
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from '@react-navigation/native';
@@ -63,7 +64,7 @@ export default ({navigation}) =>
     // 
     return <Center height="100%" bgColor="#bcefff">
         <Box safeArea w="95%" maxW="290">
-            <Heading textAlign="center">Welcome back, Fella</Heading>
+            <Heading style={{color:'#000'}} textAlign="center">Welcome back, Fella</Heading>
             <Center>
                 <Image 
                     size={150} 
@@ -89,7 +90,7 @@ export default ({navigation}) =>
                             InputLeftElement={<Icon as={<AntDesign name="mail" color="black" />} size={5} ml="3" color="muted.400" />}
                         />
                         <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-                            {errors?.email && errors.email.message}
+                            <Text style={{color:"#DC143C"}}>{errors?.email && errors.email.message}</Text>
                         </FormControl.ErrorMessage>
                     </FormControl>
                     }
@@ -109,19 +110,19 @@ export default ({navigation}) =>
                             InputLeftElement={<Icon as={<AntDesign name="lock1" />} size={5} ml="3" color="muted.400" />}
                         />
                         <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-                            {errors?.pass && errors.pass.message}
+                            <Text style={{color:"#DC143C"}}>{errors?.pass && errors.pass.message}</Text>
                         </FormControl.ErrorMessage>
                     </FormControl>
                     }
                 />
                 
                 <Box mb={2}>
-                    <Text fontSize='xs' textAlign='right' onPress={()=>navigation.navigate('wj')}>
+                    {/* <Text fontSize='xs' textAlign='right' onPress={()=>navigation.navigate('wj')}>
                         Forgot Password?
-                    </Text>
+                    </Text> */}
                 </Box>
-                <Button onPress={handleSubmit(onSubmit)} isLoading={LoginLoading}>
-                    Login
+                <Button style={{backgroundColor:'#ffac42'}} onPress={handleSubmit(onSubmit)} isLoading={LoginLoading}>
+                    <Text style={{color:"#000"}}>Login</Text>
                 </Button>
                 <Divider my="6" 
                     _light={{
@@ -133,7 +134,7 @@ export default ({navigation}) =>
                     thickness="0.5"
                 />
                 <Center>
-                    <Text mb={2} fontSize="sm">
+                    <Text style={{color:"#000"}} mb={2} fontSize="sm">
                         Don't have an account?
                         <Link to={{ screen: 'register' }}> Join now</Link>
                     </Text>

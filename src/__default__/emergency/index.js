@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback } from 'react';
-import { View, TouchableWithoutFeedback } from 'react-native';
-import { Text } from 'native-base';
+import { useEffect, useCallback, useState } from 'react';
+import { View, TouchableWithoutFeedback, SafeAreaView, RefreshControl, ActivityIndicator } from 'react-native';
+import { Text, Center } from 'native-base';
 import { useFocusEffect } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { SEND } from 'store';
@@ -8,33 +8,22 @@ import { SEND } from 'store';
 import Main from 'components/Feed/main';
 // 
 import styles from 'config/styles';
+import { ScrollView } from 'native-base';
 // 
 export default ({navigation}) =>
 {
-  const DATA = useSelector((state) => state.models);
-  const { Feed_you, Feed, FeedComment, FeedLike, Feed_following, Feed_you_lazy, Feed_following_lazy } = DATA&&DATA;
+  const { Feed_you, Feed, FeedComment, FeedLike, Feed_following, isRefreshingFeed, isLazyLoading, Feed_you_lazy } = useSelector((state) => state.models);
   const Auth = useSelector((state) => state.auths);
+  const [ onFeedTab, setTab ] = useState('you');
+  const [ page, setPage ] = useState(2);
   // 
-  const [ onFeedTab, setFeedTab ] = useState('you');
-  const feedData = DATA&&DATA['Feed_'+onFeedTab];
-  //
   const dispatch = useDispatch();
   // 
-  useEffect(()=>{
-      if(feedData) return;
-      SEND(`tweet/${onFeedTab}`, {});
-  },[onFeedTab])
-  //
   useFocusEffect(
     useCallback(() => {
-      if(feedData) return; 
       dispatch.models.SET({
         CommentList:'',
-        userInfo:'',
-        User_posts:'',
-        User_replies:'',
-        User_media:'',
-        User_likes:''
+        userInfo:''
       })
     }, [])
   );
@@ -107,6 +96,7 @@ export default ({navigation}) =>
     });
   }, [Feed]);
   // 
+  // 
   useEffect(() => {
     if(!Feed_you_lazy) return;
     if(Feed_you)
@@ -115,27 +105,41 @@ export default ({navigation}) =>
         Feed_you: [ ...Feed_you, ...Feed_you_lazy ],
         Feed_you_lazy:''
       });
+      return;
     }
-    // dispatch.models.SET({ 
-    //   Feed_you_lazy: '',
-    // });
+    dispatch.models.SET({ 
+      Feed_you_lazy: '',
+    });
   }, [Feed_you_lazy]);
   // 
-  useEffect(() => {
-    if(!Feed_following_lazy) return;
-    if(Feed_following)
-    {
-      dispatch.models.SET({ 
-        Feed_following: [ ...Feed_following, ...Feed_following_lazy ],
-        Feed_following_lazy:''
-      });
-    }
-    // dispatch.models.SET({ 
-    //   Feed_following_lazy: '',
-    // });
-  }, [Feed_following_lazy]);
+  const onRefresh = () => {
+    dispatch.models.SET({
+        isRefreshingFeed: true
+    });
+    SEND(`tweet/${onFeedTab}`, {});
+  };
   // 
-  return <>
+  const loadData = () =>
+  {
+    dispatch.models.SET({isLazyLoading:true})
+    setPage(page+1);
+    SEND(`tweet/${onFeedTab}_lazy`, {page:page});
+  }
+  // 
+  const handleScroll = (event) => {
+    const layoutMeasurement = event.nativeEvent.layoutMeasurement;
+    const contentOffset = event.nativeEvent.contentOffset;
+    const contentSize = event.nativeEvent.contentSize;
+
+    // Detect when the user is near the end of the ScrollView
+    if (layoutMeasurement.height + contentOffset.y >= contentSize.height - 20) {
+     if(!isLazyLoading){
+      loadData()
+     } 
+    }
+  };
+  // 
+  return <SafeAreaView style={{flex:1}}>
     <TouchableWithoutFeedback 
       onPress={()=>{
         navigation.navigate('feedAdd');
@@ -145,15 +149,29 @@ export default ({navigation}) =>
         <Text style={styles.addTxt}>+</Text>
       </View>
     </TouchableWithoutFeedback>
-    <View style={[{flexDirection:'row', justifyContent:'space-evenly'}, styles.tweetContainer]}>
-      {['you', 'following'].map((v,k) => (
-        <TouchableWithoutFeedback key={k} onPress={()=>setFeedTab(v)}>
-            <View style={onFeedTab==v ? {borderBottomWidth:1, borderColor:'#007acc'}: {}}>
-                <Text style={{textTransform: 'capitalize'}}>{v=='you' ? 'For You' : v}</Text>
-            </View>
-        </TouchableWithoutFeedback>
-      ))} 
+    <View>
+      <ScrollView 
+        stickyHeaderIndices={[0]}
+        refreshControl={<RefreshControl refreshing={isRefreshingFeed || false} onRefresh={onRefresh} />}
+        scrollEventThrottle={2000}
+        onScroll={handleScroll}
+      >
+        <>
+          <View style={[{flexDirection:'row', justifyContent:'space-evenly'}, styles.tweetContainer]}>
+            {['you', 'following'].map((v,k) => (
+                <TouchableWithoutFeedback key={k} onPress={()=>setTab(v)}>
+                    <View style={onFeedTab==v ? {borderBottomWidth:1, borderColor:'#007acc'}: {}}>
+                        <Text style={{textTransform: 'capitalize'}}>{v=='you' ? 'For You' : v}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
+            ))} 
+          </View>
+        </>
+        <Main onFeedTab={onFeedTab} />
+        {isLazyLoading&&<Center> <ActivityIndicator size="large" /> </Center>}
+      </ScrollView>
+      
     </View>
-    <Main feedData={feedData} onFeedTab={onFeedTab} />
-  </>
+   
+  </SafeAreaView>
 }

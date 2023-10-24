@@ -12,13 +12,13 @@ export default (d) =>
     return <TouchableOpacity style={styles.actionButton}>
         <AntDesign 
             onPress={()=>{  
-                SEND(isLiked ? 'comment/unlike' : 'comment/like', {tweet_id, comment_id});
+                SEND(_isLiked ? 'comment/unlike' : 'comment/like', {tweet_id, comment_id});
                 _isLiked ? setIsLiked(false) : setIsLiked(true);
             }}
-            name={ isLiked ? "heart" : "hearto"}
+            name={ _isLiked ? "heart" : "hearto"}
             size={16}
-            color={isLiked ? "#E0245E" : "#808080" }
+            color={_isLiked ? "#E0245E" : "#808080" }
         />
-        <Text style={[styles.actionButtonText, isLiked ? {color:'#E0245E'}:{color:"#808080"}]}>{likes}</Text>
+        <Text style={[styles.actionButtonText, _isLiked ? {color:'#E0245E'}:{color:"#808080"}]}>{likes}</Text>
     </TouchableOpacity>
 };

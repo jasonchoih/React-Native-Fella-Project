@@ -89,7 +89,7 @@ export default () =>
                     source={require('../../../assets/shiba.png')} 
                 />,
                 headerStyle: {
-                    backgroundColor: '#bcefff'
+                    // backgroundColor: '#bcefff'
                 }
             }}
         />

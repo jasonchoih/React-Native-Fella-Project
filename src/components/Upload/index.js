@@ -1,5 +1,5 @@
-import { Image, View, TouchableWithoutFeedback, ActivityIndicator, Text } from 'react-native';
-import { HStack } from 'native-base';
+import { Image, View, TouchableWithoutFeedback, ActivityIndicator } from 'react-native';
+import { HStack, Text} from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
 import { useSelector, useDispatch } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons'; 
@@ -34,6 +34,7 @@ export default props =>
     });
     // 
     if (!result.canceled){
+      // console.log(result.assets[0])
       let name = `${Auth.id}_${Date.now()}_${result.assets[0].fileName}`;
       switch (location) {
         case 'Tweets':
@@ -92,7 +93,7 @@ export default props =>
     </TouchableWithoutFeedback>
     {media&&!media.loaded&&<HStack space={2} justifyContent="center">
       <ActivityIndicator /> 
-      <Text>Uploading image...</Text>
+      <Text>Uploading media...</Text>
     </HStack>}
     </View>
     

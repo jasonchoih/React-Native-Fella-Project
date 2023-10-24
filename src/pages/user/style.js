@@ -43,12 +43,12 @@ export default styles = StyleSheet.create({
       backgroundColor: 'white',
     },
     infoContainer: {
-      borderBottomWidth:1,
-      borderColor: '#eee',
+      // borderBottomWidth:1,
+      // borderColor: '#eee',
       paddingLeft: 10,
       paddingRight:10,
       paddingTop:10,
-      backgroundColor: 'white',
+      // backgroundColor: 'white',
     },
     tweetText: {
       fontSize: 16,

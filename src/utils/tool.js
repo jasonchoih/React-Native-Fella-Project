@@ -1,3 +1,7 @@
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime)
+// 
 const findArrIndex = (arr, target) =>
 {
       let index;
@@ -10,6 +14,12 @@ const findArrIndex = (arr, target) =>
       return index;
 }
 // 
+const toNow = (date) =>
+{
+    return dayjs(date).toNow(true)
+}
+// 
 export {
-    findArrIndex
+    findArrIndex,
+    toNow
 }

@@ -18,7 +18,7 @@ export default () =>
     ];
     // 
     return <View>
-        <Heading mb={2}>Fund Raising</Heading>
+        <Heading mb={2}>Create your own Fund Raising</Heading>
         <View style={[{flexDirection: 'row', flexWrap:'wrap', gap:5}]}>
             {supports.map((v,k)=>(
                 <View style={[{borderWidth: 1, flex:6, borderRadius:5}]} key={k}>
